@@ -1,6 +1,6 @@
 $color-blue: #2196f3;
 $space-width: 15px;
-.avue-crud {
+.grid {
   .el-card + .el-card {
     margin-top: 8px;
   }
@@ -81,20 +81,20 @@ $space-width: 15px;
     }
   }
   .el-table--mini {
-    .avue-crud__color {
+    .avue-grid__color {
       width: 20px;
       height: 20px;
     }
-    .avue-crud__icon {
+    .avue-grid__icon {
       font-size: 20px;
     }
   }
   .el-table--small {
-    .avue-crud__color {
+    .avue-grid__color {
       width: 30px;
       height: 30px;
     }
-    .avue-crud__icon {
+    .avue-grid__icon {
       font-size: 30px;
     }
   }

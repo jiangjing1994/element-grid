@@ -2,91 +2,91 @@
   <div :class="b('menu')">
     <div :class="b('left')">
       <el-button
-        v-if="vaildData(crud.tableOption.addBtn, config.addBtn)"
-        v-permission="crud.getPermission('addBtn')"
+        v-if="vaildData(grid.tableOption.addBtn, config.addBtn)"
+        v-permission="grid.getPermission('addBtn')"
         type="primary"
-        :icon="crud.getBtnIcon('addBtn')"
-        :size="crud.isMediumSize"
-        @click="crud.rowAdd"
+        :icon="grid.getBtnIcon('addBtn')"
+        :size="grid.isMediumSize"
+        @click="grid.rowAdd"
       >
-        <template v-if="!crud.isIconMenu">
-          {{ crud.menuIcon('addBtn') }}
+        <template v-if="!grid.isIconMenu">
+          {{ grid.menuIcon('addBtn') }}
         </template>
       </el-button>
       <el-button
-        v-if="vaildData(crud.tableOption.addRowBtn, config.addRowBtn)"
-        v-permission="crud.getPermission('addRowBtn')"
+        v-if="vaildData(grid.tableOption.addRowBtn, config.addRowBtn)"
+        v-permission="grid.getPermission('addRowBtn')"
         type="primary"
-        :icon="crud.getBtnIcon('addBtn')"
-        :size="crud.isMediumSize"
-        @click="crud.rowCellAdd"
+        :icon="grid.getBtnIcon('addBtn')"
+        :size="grid.isMediumSize"
+        @click="grid.rowCellAdd"
       >
-        <template v-if="!crud.isIconMenu">
-          {{ crud.menuIcon('addBtn') }}
+        <template v-if="!grid.isIconMenu">
+          {{ grid.menuIcon('addBtn') }}
         </template>
       </el-button>
-      <slot name="menuLeft" :size="crud.isMediumSize"></slot>
+      <slot name="menuLeft" :size="grid.isMediumSize"></slot>
     </div>
     <div :class="b('right')">
       <avue-date
-        v-if="vaildData(crud.tableOption.dateBtn, config.dateBtn)"
+        v-if="vaildData(grid.tableOption.dateBtn, config.dateBtn)"
         type="datetimerange"
         value-format="yyyy-MM-dd HH:mm:ss"
         format="yyyy-MM-dd HH:mm:ss"
         :picker-options="pickerOptions"
         style="display: inline-block; margin-right: 20px"
-        :size="crud.isMediumSize"
+        :size="grid.isMediumSize"
         @change="dateChange"
       ></avue-date>
-      <slot name="menuRight" :size="crud.isMediumSize"></slot>
+      <slot name="menuRight" :size="grid.isMediumSize"></slot>
       <el-button
-        v-if="vaildData(crud.tableOption.excelBtn, config.excelBtn)"
-        v-permission="crud.getPermission('excelBtn')"
-        :icon="crud.getBtnIcon('excelBtn')"
+        v-if="vaildData(grid.tableOption.excelBtn, config.excelBtn)"
+        v-permission="grid.getPermission('excelBtn')"
+        :icon="grid.getBtnIcon('excelBtn')"
         circle
-        :size="crud.isMediumSize"
+        :size="grid.isMediumSize"
         @click="rowExcel"
       ></el-button>
 
       <el-button
-        v-if="vaildData(crud.tableOption.printBtn, config.printBtn)"
-        v-permission="crud.getPermission('printBtn')"
-        :icon="crud.getBtnIcon('printBtn')"
+        v-if="vaildData(grid.tableOption.printBtn, config.printBtn)"
+        v-permission="grid.getPermission('printBtn')"
+        :icon="grid.getBtnIcon('printBtn')"
         circle
-        :size="crud.isMediumSize"
+        :size="grid.isMediumSize"
         @click="rowPrint"
       ></el-button>
 
       <el-button
-        v-if="vaildData(crud.tableOption.refreshBtn, config.refreshBtn)"
-        v-permission="crud.getPermission('refreshBtn')"
-        :icon="crud.getBtnIcon('refreshBtn')"
+        v-if="vaildData(grid.tableOption.refreshBtn, config.refreshBtn)"
+        v-permission="grid.getPermission('refreshBtn')"
+        :icon="grid.getBtnIcon('refreshBtn')"
         circle
-        :size="crud.isMediumSize"
-        @click="crud.refreshChange"
+        :size="grid.isMediumSize"
+        @click="grid.refreshChange"
       ></el-button>
       <el-button
-        v-if="vaildData(crud.tableOption.columnBtn, config.columnBtn)"
-        v-permission="crud.getPermission('columnBtn')"
-        :icon="crud.getBtnIcon('columnBtn')"
+        v-if="vaildData(grid.tableOption.columnBtn, config.columnBtn)"
+        v-permission="grid.getPermission('columnBtn')"
+        :icon="grid.getBtnIcon('columnBtn')"
         circle
-        :size="crud.isMediumSize"
-        @click="crud.$refs.dialogColumn.columnBox = true"
+        :size="grid.isMediumSize"
+        @click="grid.$refs.dialogColumn.columnBox = true"
       ></el-button>
       <el-button
-        v-if="(crud.$refs.headerSearch || {}).searchFlag && vaildData(crud.tableOption.searchShowBtn, true)"
-        :icon="crud.getBtnIcon('searchBtn')"
+        v-if="(grid.$refs.headerSearch || {}).searchFlag && vaildData(grid.tableOption.searchShowBtn, true)"
+        :icon="grid.getBtnIcon('searchBtn')"
         circle
-        :size="crud.isMediumSize"
-        @click="crud.$refs.headerSearch.handleSearchShow()"
+        :size="grid.isMediumSize"
+        @click="grid.$refs.headerSearch.handleSearchShow()"
       ></el-button>
       <el-button
-        v-if="vaildData(crud.tableOption.filterBtn, config.filterBtn)"
-        v-permission="crud.getPermission('filterBtn')"
-        :icon="crud.getBtnIcon('filterBtn')"
+        v-if="vaildData(grid.tableOption.filterBtn, config.filterBtn)"
+        v-permission="grid.getPermission('filterBtn')"
+        :icon="grid.getBtnIcon('filterBtn')"
         circle
-        :size="crud.isMediumSize"
-        @click="crud.$refs.dialogFilter.box = true"
+        :size="grid.isMediumSize"
+        @click="grid.$refs.dialogFilter.box = true"
       ></el-button>
     </div>
   </div>
@@ -99,12 +99,12 @@ import permission from './core/directive/permission'
 import config from './config'
 import { vaildData } from './utils/util'
 export default {
-  name: 'Crud',
+  name: 'Grid',
   directives: {
     permission,
   },
   mixins: [locale, bem],
-  inject: ['crud'],
+  inject: ['grid'],
   data() {
     return {
       dateCreate: false,
@@ -167,21 +167,21 @@ export default {
     //日期组件回调
     dateChange(val) {
       if (this.dateCreate) {
-        this.crud.$emit('date-change', val)
+        this.grid.$emit('date-change', val)
       } else {
         this.dateCreate = true
       }
     },
     initFun() {
       this.vaildData = vaildData
-      this.crud.rowExcel = this.rowExcel
-      this.crud.rowPrint = this.rowPrint
+      this.grid.rowExcel = this.rowExcel
+      this.grid.rowPrint = this.rowPrint
     },
     rowExcel() {
-      this.crud.$refs.dialogExcel.handleShow()
+      this.grid.$refs.dialogExcel.handleShow()
     },
     rowPrint() {
-      this.$Print(this.crud.$refs.table)
+      this.$Print(this.grid.$refs.table)
     },
   },
 }

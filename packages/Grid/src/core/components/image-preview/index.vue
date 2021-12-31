@@ -71,12 +71,12 @@ export default create({
   },
   computed: {
     carouselName() {
-      if (this.$isVan) return `${this.$AVUE.ui.type}Swipe`
-      return `${this.$AVUE.ui.type}Carousel`
+      if (this.$isVan) return `${this.$GRID.ui.type}Swipe`
+      return `${this.$GRID.ui.type}Carousel`
     },
     carouselItemName() {
-      if (this.$isVan) return `${this.$AVUE.ui.type}SwipeItem`
-      return `${this.$AVUE.ui.type}CarouselItem`
+      if (this.$isVan) return `${this.$GRID.ui.type}SwipeItem`
+      return `${this.$GRID.ui.type}CarouselItem`
     },
     styleBoxName() {
       return {

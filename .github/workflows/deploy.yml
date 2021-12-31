@@ -16,7 +16,7 @@ jobs:
       - run: npm run lib
       - run: npm publish --access public
         env:
-            NODE_AUTH_TOKEN: ${{secrets.NPM20200828}}
+            NODE_AUTH_TOKEN: ${{secrets.NPM20211231}}
 
   github-pages-deploy:
     runs-on: ubuntu-latest

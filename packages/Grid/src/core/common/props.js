@@ -159,7 +159,7 @@ export default function () {
         return this.disabled ? false : this.clearable
       },
       componentName() {
-        const type = this.$AVUE.ui.type
+        const type = this.$GRID.ui.type
         const result = `${type}-${this.name}${this.button ? '-button' : ''}`
         return result
       },

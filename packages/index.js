@@ -1,13 +1,14 @@
-import AppButton from './Button'
-import ElementCrud from './ElementCrud'
+import Grid from './Grid'
 
-const components = [AppButton, ElementCrud]
-
+const components = [Grid]
+import './theme/index.scss'
 const install = function (Vue, opts = {}) {
   if (install.installed) return
 
-  components.map((component) => Vue.component(component.name, component))
-  Vue.prototype.$AVUE = Object.assign(opts, {
+  components.map((component) => {
+    Vue.component(component.name || '', component)
+  })
+  Vue.prototype.$GRID = Object.assign(opts, {
     // ui: (() => {
     //   Vue.prototype[config.is] = true;
     //   return config
@@ -59,6 +60,5 @@ if (typeof window !== 'undefined' && window.Vue) {
 
 export default {
   install,
-  AppButton,
-  ElementCrud,
+  Grid,
 }

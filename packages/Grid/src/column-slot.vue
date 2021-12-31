@@ -12,25 +12,25 @@
     :min-width="column.minWidth"
     :sortable="getColumnProp(column, 'sortable')"
     :render-header="column.renderHeader"
-    :align="column.align || crud.tableOption.align"
-    :header-align="column.headerAlign || crud.tableOption.headerAlign"
+    :align="column.align || grid.tableOption.align"
+    :header-align="column.headerAlign || grid.tableOption.headerAlign"
     :width="getColumnProp(column, 'width')"
     :fixed="getColumnProp(column, 'fixed')"
   >
     <template slot="header" slot-scope="{ $index }">
       <slot
-        v-if="crud.getSlotName(column, 'H', crud.$scopedSlots)"
-        :name="crud.getSlotName(column, 'H')"
+        v-if="grid.getSlotName(column, 'H', grid.$scopedSlots)"
+        :name="grid.getSlotName(column, 'H')"
         v-bind="{ column, $index }"
       ></slot>
       <el-popover
         v-else
         placement="bottom"
-        :disabled="(crud.objectOption[column.prop] || {}).screen !== true"
+        :disabled="(grid.objectOption[column.prop] || {}).screen !== true"
         trigger="hover"
       >
         <el-input
-          v-model="(crud.objectOption[column.prop] || {}).screenValue"
+          v-model="(grid.objectOption[column.prop] || {}).screenValue"
           type="text"
           :placeholder="`请输入 ${column.label} 筛选关键字`"
           size="mini"
@@ -41,61 +41,61 @@
     <template slot-scope="{ row, $index }">
       <el-form-item
         v-if="row.$cellEdit && column.cell"
-        :prop="crud.isTree ? '' : `list.${$index}.${column.prop}`"
+        :prop="grid.isTree ? '' : `list.${$index}.${column.prop}`"
         :label="vaildLabel(column, row, ' ')"
         :label-width="vaildLabel(column, row, '1px')"
         :rules="column.rules"
       >
         <el-tooltip
-          :content="(crud.listError[`list.${$index}.${column.prop}`] || {}).msg"
-          :disabled="!(crud.listError[`list.${$index}.${column.prop}`] || {}).valid"
+          :content="(grid.listError[`list.${$index}.${column.prop}`] || {}).msg"
+          :disabled="!(grid.listError[`list.${$index}.${column.prop}`] || {}).valid"
           placement="top"
         >
           <slot
-            v-if="crud.getSlotName(column, 'F', crud.$scopedSlots)"
+            v-if="grid.getSlotName(column, 'F', grid.$scopedSlots)"
             v-bind="{
               row: row,
-              dic: crud.DIC[column.prop],
-              size: crud.isMediumSize,
+              dic: grid.DIC[column.prop],
+              size: grid.isMediumSize,
               index: $index,
-              disabled: crud.btnDisabledList[$index],
-              label: handleShowLabel(row, column, crud.DIC[column.prop]),
+              disabled: grid.btnDisabledList[$index],
+              label: handleShowLabel(row, column, grid.DIC[column.prop]),
               $cell: row.$cellEdit,
             }"
-            :name="crud.getSlotName(column, 'F')"
+            :name="grid.getSlotName(column, 'F')"
           ></slot>
           <form-temp
             v-else
             v-model="row[column.prop]"
             :column="column"
-            :size="crud.isMediumSize"
-            :dic="(crud.cascaderDIC[$index] || {})[column.prop] || crud.DIC[column.prop]"
-            :props="column.props || crud.tableOption.props"
+            :size="grid.isMediumSize"
+            :dic="(grid.cascaderDIC[$index] || {})[column.prop] || grid.DIC[column.prop]"
+            :props="column.props || grid.tableOption.props"
             :readonly="column.readonly"
-            :disabled="crud.disabled || crud.tableOption.disabled || column.disabled || crud.btnDisabledList[$index]"
+            :disabled="grid.disabled || grid.tableOption.disabled || column.disabled || grid.btnDisabledList[$index]"
             :clearable="vaildData(column.clearable, false)"
-            v-bind="$uploadFun(column, crud)"
-            :column-slot="crud.mainSlot"
+            v-bind="$uploadFun(column, grid)"
+            :column-slot="grid.mainSlot"
             @change="columnChange($index, row, column)"
           >
-            <template v-for="item in crud.mainSlot" :slot="item" slot-scope="scope">
+            <template v-for="item in grid.mainSlot" :slot="item" slot-scope="scope">
               <slot v-bind="scope" :name="item"></slot>
             </template>
           </form-temp>
         </el-tooltip>
       </el-form-item>
       <slot
-        v-else-if="crud.$scopedSlots[column.prop]"
+        v-else-if="grid.$scopedSlots[column.prop]"
         :row="row"
         :index="$index"
-        :dic="crud.DIC[column.prop]"
-        :size="crud.isMediumSize"
-        :label="handleShowLabel(row, column, crud.DIC[column.prop])"
+        :dic="grid.DIC[column.prop]"
+        :size="grid.isMediumSize"
+        :label="handleShowLabel(row, column, grid.DIC[column.prop])"
         :name="column.prop"
       ></slot>
       <template v-else>
         <span v-if="['img', 'upload'].includes(column.type)">
-          <div class="avue-crud__img">
+          <div class="avue-grid__img">
             <img
               v-for="(item, index) in getImgList(row, column)"
               :key="index"
@@ -120,10 +120,10 @@
         </span>
         <i
           v-else-if="'color' === column.type"
-          class="avue-crud__color"
+          class="avue-grid__color"
           :style="{ backgroundColor: row[column.prop] }"
         ></i>
-        <i v-else-if="'icon' === column.type" class="avue-crud__icon" :class="row[column.prop]"></i>
+        <i v-else-if="'icon' === column.type" class="avue-grid__icon" :class="row[column.prop]"></i>
         <span v-else-if="column.html" v-html="handleDetail(row, column)"></span>
         <span v-else v-text="handleDetail(row, column)"></span>
       </template>
@@ -142,7 +142,7 @@ import { validatenull } from './utils/validate'
 
 export default {
   name: 'ColumnSlot',
-  inject: ['dynamic', 'crud'],
+  inject: ['dynamic', 'grid'],
   components: {
     formTemp,
   },
@@ -173,7 +173,7 @@ export default {
     handleShowLabel(row, column, DIC) {
       let result = ''
       if (!validatenull(DIC)) {
-        result = detail(row, column, this.crud.tableOption, DIC)
+        result = detail(row, column, this.grid.tableOption, DIC)
         row['$' + column.prop] = result
       }
       return result
@@ -185,14 +185,14 @@ export default {
         if (typeof column.change === 'function' && column.cell === true) {
           column.change({ row, column, index: $index, value: row[column.prop] })
         }
-        this.crud.$emit('column-change', { row, column, index: $index, value: row[column.prop] })
+        this.grid.$emit('column-change', { row, column, index: $index, value: row[column.prop] })
         count[$index][column.prop] = true
         this.$nextTick(() => (count[$index][column.prop] = false))
       }
     },
     handleChange(column, row) {
       this.$nextTick(() => {
-        const columnOption = [...this.crud.propOption]
+        const columnOption = [...this.grid.propOption]
         //本节点;
         const cascader = column.cascader
         const str = cascader.join(',')
@@ -203,13 +203,13 @@ export default {
         const columnNext = this.findObject(this.columnOption, columnNextProp)
         if (validatenull(columnNext)) return
         // 如果本节点没有字典则创建节点数组
-        if (validatenull(this.crud.cascaderDIC[rowIndex])) {
-          this.$set(this.crud.cascaderDIC, rowIndex, {})
+        if (validatenull(this.grid.cascaderDIC[rowIndex])) {
+          this.$set(this.grid.cascaderDIC, rowIndex, {})
         }
-        if (this.crud.formIndexList.includes(rowIndex)) {
+        if (this.grid.formIndexList.includes(rowIndex)) {
           //清空子类字典
           cascader.forEach((ele) => {
-            this.$set(this.crud.cascaderDIC[rowIndex], ele.prop, [])
+            this.$set(this.grid.cascaderDIC[rowIndex], ele.prop, [])
             cascader.forEach((ele) => (row[ele] = ''))
           })
         }
@@ -223,10 +223,10 @@ export default {
           form: row,
         }).then((res) => {
           //首次加载的放入队列记录
-          if (!this.crud.formIndexList.includes(rowIndex)) this.crud.formIndexList.push(rowIndex)
+          if (!this.grid.formIndexList.includes(rowIndex)) this.grid.formIndexList.push(rowIndex)
           const dic = Array.isArray(res) ? res : []
           // 修改字典
-          this.$set(this.crud.cascaderDIC[rowIndex], columnNextProp, dic)
+          this.$set(this.grid.cascaderDIC[rowIndex], columnNextProp, dic)
 
           if (
             !validatenull(dic[columnNext.cascaderIndex]) &&
@@ -254,8 +254,8 @@ export default {
     },
     handleDetail(row, column) {
       let result = row[column.prop]
-      let DIC = column.parentProp ? (this.crud.cascaderDIC[row.$index] || {})[column.prop] : this.crud.DIC[column.prop]
-      result = detail(row, column, this.crud.tableOption, DIC)
+      let DIC = column.parentProp ? (this.grid.cascaderDIC[row.$index] || {})[column.prop] : this.grid.DIC[column.prop]
+      result = detail(row, column, this.grid.tableOption, DIC)
       if (!validatenull(DIC)) {
         row['$' + column.prop] = result
       }

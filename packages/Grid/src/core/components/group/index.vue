@@ -60,10 +60,10 @@ export default create({
   },
   computed: {
     collapseName() {
-      return `${this.$AVUE.ui.type}Collapse`
+      return `${this.$GRID.ui.type}Collapse`
     },
     collapseItemName() {
-      return `${this.$AVUE.ui.type}CollapseItem`
+      return `${this.$GRID.ui.type}CollapseItem`
     },
     text() {
       return this.collapse ? 1 : 0

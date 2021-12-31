@@ -4,12 +4,12 @@
     <!-- 动态列 -->
     <template v-for="(column, index) in list">
       <column-dynamic v-if="column.children && column.children.length > 0" :key="column.label" :column-option="column">
-        <template v-for="item in crud.mainSlot" :slot="item" slot-scope="scope">
+        <template v-for="item in grid.mainSlot" :slot="item" slot-scope="scope">
           <slot v-bind="scope" :name="item"></slot>
         </template>
       </column-dynamic>
       <column-slot v-else :column="column" :column-option="columnOption">
-        <template v-for="item in crud.mainSlot" :slot="item" slot-scope="scope">
+        <template v-for="item in grid.mainSlot" :slot="item" slot-scope="scope">
           <slot v-bind="scope" :name="item"></slot>
         </template>
       </column-slot>
@@ -27,7 +27,7 @@ import bem from './utils/bem'
 import { validatenull } from './utils/validate'
 
 export default {
-  name: 'CrudColumn',
+  name: 'GridColumn',
   components: {
     columnSlot,
     columnDynamic,
@@ -38,10 +38,10 @@ export default {
   data() {
     return {}
   },
-  inject: ['crud'],
+  inject: ['grid'],
   provide() {
     return {
-      crud: this.crud,
+      grid: this.grid,
       dynamic: this,
     }
   },
@@ -51,7 +51,7 @@ export default {
       result = arraySort(
         result,
         'index',
-        (a, b) => this.crud.objectOption[a.prop]?.index - this.crud.objectOption[b.prop]?.index
+        (a, b) => this.grid.objectOption[a.prop]?.index - this.grid.objectOption[b.prop]?.index
       )
       return result
     },
@@ -69,18 +69,18 @@ export default {
     //表格筛选字典
     handleFilters(column, flag) {
       if (flag !== true) return undefined
-      let DIC = this.crud.DIC[column.prop] || []
+      let DIC = this.grid.DIC[column.prop] || []
       let list = []
       if (!validatenull(DIC)) {
         DIC.forEach((ele) => {
-          const props = column.props || this.crud.tableOption.props || {}
+          const props = column.props || this.grid.tableOption.props || {}
           list.push({
             text: ele[props.label || DIC_PROPS.label],
             value: ele[props.value || DIC_PROPS.value],
           })
         })
       } else {
-        this.crud.cellForm.list.forEach((ele) => {
+        this.grid.cellForm.list.forEach((ele) => {
           if (!list.map((item) => item.text).includes(ele[column.prop])) {
             list.push({
               text: ele[column.prop],
@@ -92,9 +92,9 @@ export default {
       return list
     },
     getColumnProp(column, type) {
-      let obj = this.crud.objectOption[column.prop] || {}
+      let obj = this.grid.objectOption[column.prop] || {}
       if (type === 'filterMethod') return obj?.filters
-      if (this.crud.isMobile && ['fixed'].includes(type)) return false
+      if (this.grid.isMobile && ['fixed'].includes(type)) return false
       let result = obj?.[type]
       if (type == 'width' && result == 0) {
         return undefined

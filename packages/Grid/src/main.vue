@@ -14,11 +14,11 @@
           <slot name="menuRight" v-bind="scope"></slot>
         </template>
       </header-menu>
-      <el-tag v-if="vaildData(tableOption.tip, config.tip) && tableOption.selection" class="avue-crud__tip">
-        <span class="avue-crud__tip-name">
-          {{ t('crud.tipStartTitle') }}
-          <span class="avue-crud__tip-count">{{ selectLen }}</span>
-          {{ t('crud.tipEndTitle') }}
+      <el-tag v-if="vaildData(tableOption.tip, config.tip) && tableOption.selection" class="grid__tip">
+        <span class="grid__tip-name">
+          {{ '当前已选择' }}
+          <span class="grid__tip-count">{{ selectLen }}</span>
+          {{ '条' }}
         </span>
         <el-button
           v-if="vaildData(tableOption.selectClearBtn, config.selectClearBtn) && tableOption.selection"
@@ -26,7 +26,7 @@
           type="text"
           size="small"
           @click="selectClear"
-          >{{ t('crud.emptyBtn') }}</el-button
+          >{{ '清空' }}</el-button
         >
         <slot name="tip"></slot>
       </el-tag>
@@ -36,8 +36,8 @@
           v-if="reload"
           :data="cellForm.list"
           :row-key="handleGetRowKeys"
-          :class="{ 'avue-crud--indeterminate': vaildData(tableOption.indeterminate, false) }"
-          :size="$AVUE.tableSize || controlSize"
+          :class="{ 'avue-grid--indeterminate': vaildData(tableOption.indeterminate, false) }"
+          :size="$GRID.tableSize || controlSize"
           :lazy="vaildData(tableOption.lazy, false)"
           :load="treeLoad"
           :tree-props="treeProps"
@@ -54,23 +54,23 @@
           :cell-class-name="cellClassName"
           :row-style="rowStyle"
           :cell-style="cellStyle"
+          ref="table"
           :sort-method="sortMethod"
           :sort-orders="sortOrders"
           :sort-by="sortBy"
           :fit="tableOption.fit"
           :header-cell-class-name="headerCellClassName"
-          @current-change="currentRowChange"
-          :max-height="isAutoHeight ? tableHeight : tableOption.maxHeight"
-          @expand-change="expandChange"
-          :height="tableHeight"
-          @header-dragend="headerDragend"
-          ref="table"
-          @row-click="rowClick"
-          :width="setPx(tableOption.width, config.width)"
-          @row-dblclick="rowDblclick"
-          :border="tableOption.border"
-          @cell-mouse-enter="cellMouseEnter"
           v-loading="tableLoading"
+          :max-height="isAutoHeight ? tableHeight : tableOption.maxHeight"
+          :height="tableHeight"
+          :width="setPx(tableOption.width, config.width)"
+          :border="tableOption.border"
+          @current-change="currentRowChange"
+          @expand-change="expandChange"
+          @header-dragend="headerDragend"
+          @row-click="rowClick"
+          @row-dblclick="rowDblclick"
+          @cell-mouse-enter="cellMouseEnter"
           @cell-mouse-leave="cellMouseLeave"
           @cell-click="cellClick"
           @header-click="headerClick"
@@ -146,14 +146,14 @@ import { vaildData, setPx } from './utils/util'
 import { validatenull } from './utils/validate'
 
 export default {
-  name: 'ElementCrud',
+  name: 'Grid',
   mixins: [init(), locale, bem],
   directives: {
     permission,
   },
   provide() {
     return {
-      crud: this,
+      grid: this,
     }
   },
   components: {
@@ -244,28 +244,28 @@ export default {
           prop: 'hide',
         },
         {
-          label: this.t('crud.column.fixed'),
+          label: this.t('grid.column.fixed'),
           prop: 'fixed',
         },
         {
-          label: this.t('crud.column.filters'),
+          label: this.t('grid.column.filters'),
           prop: 'filters',
         },
         {
-          label: this.t('crud.column.screen'),
+          label: this.t('grid.column.screen'),
           prop: 'screen',
         },
         {
-          label: this.t('crud.column.sortable'),
+          label: this.t('grid.column.sortable'),
           prop: 'sortable',
         },
         {
-          label: this.t('crud.column.index'),
+          label: this.t('grid.column.index'),
           prop: 'index',
           hide: true,
         },
         {
-          label: this.t('crud.column.width'),
+          label: this.t('grid.column.width'),
           prop: 'width',
           hide: true,
         },
@@ -317,7 +317,7 @@ export default {
       return this.getSlotList(['Header', 'Form'], this.$scopedSlots, this.propOption).concat(result)
     },
     calcHeight() {
-      return (this.tableOption.calcHeight || 0) + this.$AVUE.calcHeight
+      return (this.tableOption.calcHeight || 0) + this.$GRID.calcHeight
     },
     propOption() {
       let result = []
@@ -466,7 +466,7 @@ export default {
       this.list = treeToArray(this, data)
     },
     menuIcon(value) {
-      return this.vaildData(this.tableOption[value + 'Text'], this.t('crud.' + value))
+      return this.vaildData(this.tableOption[value + 'Text'], this.t('grid.' + value))
     },
     getBtnIcon(value) {
       const name = value + 'Icon'

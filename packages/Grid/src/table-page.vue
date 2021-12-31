@@ -1,10 +1,10 @@
 <template>
-  <div v-if="pageFlag && vaildData(crud.tableOption.page, true)" :class="b('pagination')">
+  <div v-if="pageFlag && vaildData(grid.tableOption.page, true)" :class="b('pagination')">
     <slot name="page"></slot>
     <el-pagination
-      :small="crud.isMobile"
+      :small="grid.isMobile"
       :disabled="defaultPage.disabled"
-      :hide-on-single-page="vaildData(crud.tableOption.simplePage, config.simplePage)"
+      :hide-on-single-page="vaildData(grid.tableOption.simplePage, config.simplePage)"
       :pager-count="defaultPage.pagerCount"
       :current-page.sync="defaultPage.currentPage"
       :background="vaildData(defaultPage.background, config.pageBackground)"
@@ -24,8 +24,8 @@
 import config from './config'
 import bem from './utils/bem'
 export default {
-  name: 'Crud',
-  inject: ['crud'],
+  name: 'Grid',
+  inject: ['grid'],
   mixins: [bem],
   props: {
     page: {
@@ -63,7 +63,7 @@ export default {
     },
     pageFlag() {
       this.$nextTick(() => {
-        this.crud.getTableHeight()
+        this.grid.getTableHeight()
       })
     },
     //如果当前页面删除没数据了调用第一页
@@ -73,15 +73,15 @@ export default {
         this.defaultPage.total != 0
       ) {
         this.defaultPage.currentPage = this.defaultPage.currentPage - 1
-        this.crud.$emit('on-load', this.defaultPage)
-        this.crud.$emit('current-change', this.defaultPage.currentPage)
+        this.grid.$emit('on-load', this.defaultPage)
+        this.grid.$emit('current-change', this.defaultPage.currentPage)
         this.updateValue()
       }
     },
   },
   created() {
     this.pageInit()
-    this.crud.$emit('on-load', this.defaultPage)
+    this.grid.$emit('on-load', this.defaultPage)
   },
   methods: {
     pageInit() {
@@ -94,29 +94,29 @@ export default {
       this.updateValue()
     },
     updateValue() {
-      this.crud.$emit('update:page', this.defaultPage)
+      this.grid.$emit('update:page', this.defaultPage)
     },
     //下一页事件
     nextClick(val) {
-      this.crud.$emit('next-click', val)
+      this.grid.$emit('next-click', val)
     },
     //上一页事件
     prevClick(val) {
-      this.crud.$emit('prev-click', val)
+      this.grid.$emit('prev-click', val)
     },
     // 页大小回调
     sizeChange(val) {
       this.defaultPage.currentPage = 1
       this.defaultPage.pageSize = val
       this.updateValue()
-      this.crud.$emit('on-load', this.defaultPage)
-      this.crud.$emit('size-change', val)
+      this.grid.$emit('on-load', this.defaultPage)
+      this.grid.$emit('size-change', val)
     },
     // 页码回调
     currentChange(val) {
       this.updateValue()
-      this.crud.$emit('on-load', this.defaultPage)
-      this.crud.$emit('current-change', val)
+      this.grid.$emit('on-load', this.defaultPage)
+      this.grid.$emit('current-change', val)
     },
   },
 }

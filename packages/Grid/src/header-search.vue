@@ -1,7 +1,7 @@
 <template>
   <el-collapse-transition>
-    <el-card v-show="searchShow && searchFlag" :shadow="crud.isCard" :class="b()">
-      <slot name="search" :row="searchForm" :search="searchForm" :size="crud.controlSize"></slot>
+    <el-card v-show="searchShow && searchFlag" :shadow="grid.isCard" :class="b()">
+      <slot name="search" :row="searchForm" :search="searchForm" :size="grid.controlSize"></slot>
       <avue-form
         v-if="searchFlag"
         ref="form"
@@ -23,14 +23,14 @@
           ></slot>
           <template v-if="isSearchIcon">
             <el-button v-if="show === false" type="text" icon="el-icon-arrow-down" @click="show = true">{{
-              t('crud.open')
+              t('grid.open')
             }}</el-button>
             <el-button v-if="show === true" type="text" icon="el-icon-arrow-up" @click="show = false">{{
-              t('crud.shrink')
+              t('grid.shrink')
             }}</el-button>
           </template>
         </template>
-        <template v-for="item in crud.searchSlot" :slot="getSlotName(item)" slot-scope="scope">
+        <template v-for="item in grid.searchSlot" :slot="getSlotName(item)" slot-scope="scope">
           <slot
             :name="item"
             v-bind="
@@ -55,8 +55,8 @@ import slot from 'core/slot'
 import { formInitVal, getSearchType, getType } from 'core/dataformat'
 import config from './config'
 export default cteate({
-  name: 'crud__search',
-  inject: ['crud'],
+  name: 'grid__search',
+  inject: ['grid'],
   mixins: [locale, slot],
   data() {
     return {
@@ -79,7 +79,7 @@ export default cteate({
     },
   },
   watch: {
-    'crud.propOption': {
+    'grid.propOption': {
       handler() {
         this.dataFormat()
       },
@@ -96,7 +96,7 @@ export default cteate({
       handler() {
         this.$nextTick(() => {
           setTimeout(() => {
-            this.crud.getTableHeight()
+            this.grid.getTableHeight()
           }, 300)
         })
       },
@@ -107,11 +107,11 @@ export default cteate({
   },
   computed: {
     isGroup() {
-      return !validatenull(this.crud.tableOption.group)
+      return !validatenull(this.grid.tableOption.group)
     },
     propOption() {
       let list = []
-      let groupList = this.crud.tableOption.group
+      let groupList = this.grid.tableOption.group
       if (groupList) {
         groupList.forEach((ele) => {
           ;(ele.column || []).forEach((column) => {
@@ -119,25 +119,25 @@ export default cteate({
           })
         })
       }
-      return [...list, ...this.crud.columnOption]
+      return [...list, ...this.grid.columnOption]
     },
     isSearchIcon() {
       return (
-        this.vaildData(this.crud.option.searchIcon, this.$AVUE.searchIcon) === true && this.columnLen > this.searchIndex
+        this.vaildData(this.grid.option.searchIcon, this.$GRID.searchIcon) === true && this.columnLen > this.searchIndex
       )
     },
     searchIndex() {
-      return this.crud.option.searchIndex || 2
+      return this.grid.option.searchIndex || 2
     },
     columnLen() {
       let count = 0
-      this.crud.propOption.forEach((ele) => {
+      this.grid.propOption.forEach((ele) => {
         if (ele.search) count++
       })
       return count
     },
     option() {
-      const option = this.crud.option
+      const option = this.grid.option
       const detailColumn = (list = []) => {
         let column = []
         let count = 0
@@ -194,12 +194,12 @@ export default cteate({
           printBtn: false,
           mockBtn: false,
           size: option.searchSize,
-          submitText: option.searchBtnText || this.t('crud.searchBtn'),
+          submitText: option.searchBtnText || this.t('grid.searchBtn'),
           submitBtn: this.vaildData(option.searchBtn, config.searchSubBtn),
-          submitIcon: this.crud.getBtnIcon('searchBtn'),
-          emptyText: option.emptyBtnText || this.t('crud.emptyBtn'),
+          submitIcon: this.grid.getBtnIcon('searchBtn'),
+          emptyText: option.emptyBtnText || this.t('grid.emptyBtn'),
           emptyBtn: this.vaildData(option.emptyBtn, config.emptyBtn),
-          emptyIcon: this.crud.getBtnIcon('emptyBtn'),
+          emptyIcon: this.grid.getBtnIcon('emptyBtn'),
           menuSpan: (() => {
             if (this.show || !this.isSearchIcon) {
               return option.searchMenuSpan
@@ -209,7 +209,7 @@ export default cteate({
           })(),
           menuPosition: option.searchMenuPosition || 'center',
           dicFlag: false,
-          dicData: this.crud.DIC,
+          dicData: this.grid.DIC,
         })
         return result
       }
@@ -217,26 +217,26 @@ export default cteate({
       return result
     },
     searchFlag() {
-      return !!this.crud.$scopedSlots.search || !validatenull(this.searchForm)
+      return !!this.grid.$scopedSlots.search || !validatenull(this.searchForm)
     },
   },
   methods: {
     initFun() {
-      ;['searchReset', 'searchChange'].forEach((ele) => (this.crud[ele] = this[ele]))
+      ;['searchReset', 'searchChange'].forEach((ele) => (this.grid[ele] = this[ele]))
     },
     getSlotName(item) {
       return item.replace('Search', '')
     },
     handleChange() {
-      this.crud.$emit('update:search', this.searchForm)
+      this.grid.$emit('update:search', this.searchForm)
     },
     // 搜索回调
     searchChange(form, done) {
-      this.crud.$emit('search-change', form, done)
+      this.grid.$emit('search-change', form, done)
     },
     // 搜索清空
     resetChange() {
-      this.crud.$emit('search-reset', this.defaultForm.tableForm)
+      this.grid.$emit('search-reset', this.defaultForm.tableForm)
     },
     // 搜索清空
     searchReset() {
@@ -248,7 +248,7 @@ export default cteate({
     dataFormat() {
       this.defaultForm = formInitVal(this.option.column)
       this.searchForm = this.deepClone(this.defaultForm.tableForm)
-      this.searchShow = vaildData(this.crud.tableOption.searchShow, config.searchShow)
+      this.searchShow = vaildData(this.grid.tableOption.searchShow, config.searchShow)
     },
   },
 })
