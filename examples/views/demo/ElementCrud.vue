@@ -16,6 +16,7 @@
       </el-radio-group>
     </el-row>
     <grid :data="data" :option="option0"></grid>
+    <grid :data="[]" :option="option0"></grid>
   </div>
 </template>
 

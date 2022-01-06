@@ -44,23 +44,23 @@
           :expand-row-keys="tableOption.expandRowKeys"
           :default-expand-all="tableOption.defaultExpandAll"
           :highlight-current-row="tableOption.highlightCurrentRow"
+          ref="table"
           :show-summary="tableOption.showSummary"
           :summary-method="tableSummaryMethod"
           :span-method="tableSpanMethod"
           :stripe="tableOption.stripe"
           :show-header="tableOption.showHeader"
+          v-loading="tableLoading"
           :default-sort="tableOption.defaultSort"
           :row-class-name="rowClassName"
           :cell-class-name="cellClassName"
           :row-style="rowStyle"
           :cell-style="cellStyle"
-          ref="table"
           :sort-method="sortMethod"
           :sort-orders="sortOrders"
           :sort-by="sortBy"
           :fit="tableOption.fit"
           :header-cell-class-name="headerCellClassName"
-          v-loading="tableLoading"
           :max-height="isAutoHeight ? tableHeight : tableOption.maxHeight"
           :height="tableHeight"
           :width="setPx(tableOption.width, config.width)"
@@ -87,12 +87,12 @@
           <template slot="empty">
             <div :class="b('empty')">
               <slot v-if="$slots.empty" name="empty"></slot>
-              <avue-empty
+              <empty
                 v-else
                 size="50"
                 image="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNDEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCAxKSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgIDxlbGxpcHNlIGZpbGw9IiNGNUY1RjUiIGN4PSIzMiIgY3k9IjMzIiByeD0iMzIiIHJ5PSI3Ii8+CiAgICA8ZyBmaWxsLXJ1bGU9Im5vbnplcm8iIHN0cm9rZT0iI0Q5RDlEOSI+CiAgICAgIDxwYXRoIGQ9Ik01NSAxMi43Nkw0NC44NTQgMS4yNThDNDQuMzY3LjQ3NCA0My42NTYgMCA0Mi45MDcgMEgyMS4wOTNjLS43NDkgMC0xLjQ2LjQ3NC0xLjk0NyAxLjI1N0w5IDEyLjc2MVYyMmg0NnYtOS4yNHoiLz4KICAgICAgPHBhdGggZD0iTTQxLjYxMyAxNS45MzFjMC0xLjYwNS45OTQtMi45MyAyLjIyNy0yLjkzMUg1NXYxOC4xMzdDNTUgMzMuMjYgNTMuNjggMzUgNTIuMDUgMzVoLTQwLjFDMTAuMzIgMzUgOSAzMy4yNTkgOSAzMS4xMzdWMTNoMTEuMTZjMS4yMzMgMCAyLjIyNyAxLjMyMyAyLjIyNyAyLjkyOHYuMDIyYzAgMS42MDUgMS4wMDUgMi45MDEgMi4yMzcgMi45MDFoMTQuNzUyYzEuMjMyIDAgMi4yMzctMS4zMDggMi4yMzctMi45MTN2LS4wMDd6IiBmaWxsPSIjRkFGQUZBIi8+CiAgICA8L2c+CiAgPC9nPgo8L3N2Zz4K"
                 :desc="tableOption.emptyText || '暂无数据'"
-              ></avue-empty>
+              ></empty>
             </div>
           </template>
           <column :column-option="columnOption">
@@ -139,6 +139,7 @@ import headerMenu from './header-menu'
 
 import columnMenu from './column-menu'
 import columnDefault from './column-default'
+import empty from './empty'
 import config from './config.js'
 import treeToArray, { addAttrs } from './eval'
 import { calcCascader, formInitVal } from './core/dataformat'
@@ -162,6 +163,7 @@ export default {
     columnMenu, //操作栏，
     tablePage, //分页
     headerMenu, //菜单头部
+    empty, //空
   },
   props: {
     sortBy: Function,
