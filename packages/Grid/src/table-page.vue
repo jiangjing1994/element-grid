@@ -23,6 +23,7 @@
 <script>
 import config from './config'
 import bem from './utils/bem'
+import { vaildData } from './utils/util'
 export default {
   name: 'Grid',
   inject: ['grid'],
@@ -84,6 +85,7 @@ export default {
     this.grid.$emit('on-load', this.defaultPage)
   },
   methods: {
+    vaildData,
     pageInit() {
       this.defaultPage = Object.assign(this.defaultPage, this.page, {
         total: Number(this.page.total || this.defaultPage.total),

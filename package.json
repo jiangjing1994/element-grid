@@ -1,6 +1,6 @@
 {
   "name": "@jiangjing94/grid",
-  "version": "0.0.2-beta.1",
+  "version": "0.0.2-beta.2",
   "private": false,
   "scripts": {
     "bootstrap": "yarn --frozen-lockfile && yarn gen:version",
