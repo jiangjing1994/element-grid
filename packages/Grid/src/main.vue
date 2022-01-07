@@ -35,12 +35,12 @@
         <el-table
           v-if="reload"
           ref="table"
+          v-loading="tableLoading"
           :data="cellForm.list"
           :row-key="handleGetRowKeys"
           :class="{ 'avue-grid--indeterminate': vaildData(tableOption.indeterminate, false) }"
           :size="$GRID.tableSize || controlSize"
           :lazy="vaildData(tableOption.lazy, false)"
-          v-loading="tableLoading"
           :load="treeLoad"
           :tree-props="treeProps"
           :expand-row-keys="tableOption.expandRowKeys"
